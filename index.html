@@ -1,8 +1,15 @@
 <script src=/socket.io/socket.io.js></script>
 <script>
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
+    var socket       = io.connect('http://gamesjs.com:8090')
+    ,   game_room_id = 'i83jklsjs', // make real UUID
+    ,   player       = {
+            name : 'Francois', // get player name
+            id   : Math.ceil(Math.random()*4000) + new Date // make better
+        };
+
+    socket.emit( 'player-connected', player );
+    socket.on( 'player-connected', function (player) {
+        console.log(data);
+    });
+
 </script>

@@ -8,11 +8,8 @@ var http = require('http');
 // Remark: This code MUST be required ONCE somewhere in your application for,
 // node knockout tracking to work.
 //
-require('./vendor/nko')('2tDiu6H8P/Y44dI1', function(err, res) {
-  if (err) {
-    console.error('Warning: Running in development mode.');
-    //console.error(err.stack);
-  }
+require('./vendor/nko')('2tDiu6H8P/Y44dI1', function( err, res ) {
+
 });
 
 //
@@ -21,9 +18,16 @@ require('./vendor/nko')('2tDiu6H8P/Y44dI1', function(err, res) {
 
 
 //
-// Start up an http server
+//  GameJS
 //
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  res.end('<h1>I\'m gonna node knock you out.</h1>');
-}).listen(8080);
+var gamesjs = require('./gamesjs');
+
+// Start a new Game Room
+gamesjs( 'game-end-point', function(sockets) {    
+    
+});
+
+gamesjs( 'game-end-point-2', function(sockets) {    
+    
+});
+
