@@ -1,8 +1,13 @@
 {
-  "name": "jumpout",
+  "name": "Jumpout",
   "subdomain": "jumpout",
   "scripts": {
-    "start": "server.js"
+    "start": "server/app.js"
   },
+  "dependencies": [
+    "express@2.4.6",
+    "ejs@0.4.3",
+    "stylus@0.15.1"
+  ],
   "version": "0.0.0"
 }
