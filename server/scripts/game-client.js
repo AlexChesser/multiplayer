@@ -44,8 +44,6 @@ module.exports = GameClient = Class.extend({
             } );
 
             socket.on( 'server-tick', function (msg) {
-                console.log(JSON.stringify(msg));
-
                 msg.forEach(function(obj){
                     //if (player.id === obj.id) return;
                     var fplayer = sim.lookup(obj.id);

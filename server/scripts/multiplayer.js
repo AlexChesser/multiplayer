@@ -61,8 +61,6 @@ module.exports = {
             } );
 
             socket.on( 'player-input', function (data) {
-                console.log(data);
-
                 var game   = games[data.game_room_id];
                 if (!game) return;
 
