@@ -125,7 +125,7 @@ module.exports = {
             game_room_id : game_room_id,
             interval     : setInterval( function() {
                 game_loop_tick(game);
-            }, 500 ),
+            }, 100 ),
             creating     : (function(){
                 console.log('New Game at http://gamesjs.com/' + game_room_id);
             })()

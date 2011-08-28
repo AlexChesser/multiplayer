@@ -34,6 +34,7 @@ module.exports = GameClient = Class.extend({
 
         var player = this.player = new Player(this.sim,this.controller,0,0,0);
         this.sim.addEntity( this.player, this.player.id );
+        var sim = this.sim;
 
         socket.on( 'connect', function () {
             socket.emit( 'player-connected', {
@@ -43,6 +44,24 @@ module.exports = GameClient = Class.extend({
 
             socket.on( 'server-tick', function (msg) {
                 console.log(JSON.stringify(msg));
+
+                msg.forEach(function(obj){
+                    var player = sim.lookup(obj.id);
+                    
+                    if (!player) {
+                        player = new Player(
+                            sim, null, 0, 0, 0
+                        );
+                        sim.addEntity( player, player.id );
+                    }
+
+                    player.x = obj.x;
+                    player.y = obj.y;
+                    player.z = obj.z;
+                    player.vx = obj.vx;
+                    player.vy = obj.vy;
+                    player.vz = obj.vz;
+                });
             } );
         });
 

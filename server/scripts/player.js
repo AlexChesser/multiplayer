@@ -9,6 +9,8 @@ module.exports = Player = Entity.extend({
         this.controller = controller;
     },
     update: function(elapsedTime){
+        if (!this.controller) return;
+
         if(this.controller.isKeyDown('left')){
             this.vx-=acceleration*elapsedTime;
         }
