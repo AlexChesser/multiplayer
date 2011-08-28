@@ -7,7 +7,9 @@
   "dependencies": [
     "express@2.4.6",
     "ejs@0.4.3",
-    "stylus@0.15.1"
+    "stylus@0.15.1",
+    "browserify@1.4.3",
+    "uglify-js@1.0.7"
   ],
   "version": "0.0.0-7"
 }

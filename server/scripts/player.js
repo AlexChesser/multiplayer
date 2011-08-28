@@ -1,9 +1,9 @@
-(function(){
+var Entity = require('./entity');
 var acceleration = 15,
     friction = 0.97;
 
 
-jo.Player = jo.Entity.extend({
+module.exports = Player = Entity.extend({
     init: function(sim,controller,x,y,z){
         this._super(sim,x,y,z);
         this.controller = controller;
@@ -35,5 +35,3 @@ jo.Player = jo.Entity.extend({
         ctx.fillRect(this.x,this.y,100,100);
     }
 });
-
-})();

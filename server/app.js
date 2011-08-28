@@ -27,6 +27,11 @@ app.configure(function(){
 });
     // Development specific 
 app.configure('development', function(){
+    app.use(require('browserify')({
+        require : __dirname + '/scripts/main.js',
+        watch: true
+    }));
+
     app.use(express.static(__dirname + '/../www'));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     console.log('Running in Development Mode');
@@ -34,6 +39,12 @@ app.configure('development', function(){
     // Production specific (You don't have to worry about setting this. 
     // It is set by default on the live server.
 app.configure('production', function(){
+    app.use(require('browserify')({
+        require : __dirname + '/scripts/main.js',
+        filter : require('uglify-js'), 
+        watch: true
+    }));
+
     port = 80;
     var oneYear = 31557600000;
     app.use(express.static(__dirname + '/../www', { maxAge: oneYear }));

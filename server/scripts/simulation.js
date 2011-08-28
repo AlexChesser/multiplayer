@@ -1,6 +1,6 @@
 (function(){
 
-jo.Simulation = Class.extend({
+module.exports = Simulation = Class.extend({
     init: function(){
         this.entities = [];
         this.timeElapsed = 0.0;

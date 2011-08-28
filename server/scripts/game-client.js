@@ -1,13 +1,16 @@
-(function(){
+var Class = require('./class'),
+    Simulation = require('./simulation'),
+    Player = require('./player'),
+    Controller = require('./controller');
 
-jo.GameClient = Class.extend({
+module.exports = GameClient = Class.extend({
     init: function(){
         var self = this;
-        this.sim = new jo.Simulation();
+        this.sim = new Simulation();
         this.width = 800;
         this.height = 600;
         
-        this.controller = new jo.Controller([{
+        this.controller = new Controller([{
                 name: "left",
                 keyCode: 37
             }, {
@@ -22,7 +25,7 @@ jo.GameClient = Class.extend({
             },  
         ]);
         
-        this.player = new jo.Player(this.sim,this.controller,0,0,0);
+        this.player = new Player(this.sim,this.controller,0,0,0);
         this.sim.addEntity(this.player);
         
         this.cvs = document.getElementById('app-canvas');
@@ -66,5 +69,3 @@ jo.GameClient = Class.extend({
     },
 
 });
-
-})();

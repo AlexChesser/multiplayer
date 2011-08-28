@@ -1,6 +1,6 @@
-(function(){
+var Class = require('./class');
 
-jo.Controller = Class.extend({
+module.exports = Controller = Class.extend({
     init: function(_keys){
         this.keys = [];
         for(var i=0; i<_keys.length;i++){
@@ -37,5 +37,3 @@ jo.Controller = Class.extend({
         }
     }
 });
-
-})();
