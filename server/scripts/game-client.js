@@ -46,12 +46,27 @@ module.exports = GameClient = Class.extend({
         this.sim.addEntity(this.player);
         
         document.addEventListener('keydown',function(e){
-            if(self.controller.onInput(e)){
-            }
+            var action = self.controller.onInput(e);
+            if (!action) return;
+
+            socket.emit( 'player-input', {
+                player_id    : '12345',
+                game_room_id : game_room_id,
+                action       : action
+            } );
+
         },false);
+
         document.addEventListener('keyup',function(e){
-            if(self.controller.onInput(e)){
-            }
+            var action = self.controller.onInput(e);
+            if (!action) return;
+
+            socket.emit( 'player-input', {
+                player_id    : this.player.id,
+                game_room_id : game_room_id,
+                action       : action
+            } );
+
         },false);
     },
     start: function(){

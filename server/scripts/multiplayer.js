@@ -36,7 +36,7 @@ function game_loop_tick(game) {
     game.sockets.forEach(function(sock){
         sock.emit( 'server-tick', game.simulation.entities.map(function(obj) {
             return {
-                id : '12345', // TODO
+                id : obj.id,
                 x  : obj.x,
                 y  : obj.y,
                 z  : obj.z,
@@ -53,6 +53,7 @@ module.exports = {
         io = io.listen(app);
         io.sockets.on( 'connection', function (socket) {
             socket.on( 'player-input', function (data) {
+                console.log(data);
                 /*
                     data = {
                         game_room_id
@@ -77,6 +78,7 @@ module.exports = {
                 var game = games[data.game_room_id];
                 if (!game) return;
                 game.sockets.push(socket);
+                socket.send('l38ylasjklf');
                 console.log('!!!!!!!!!!!!!!');
             });
         });
@@ -89,6 +91,7 @@ module.exports = {
             timeStart    : new Date / 1000.0,
             sockets      : [],
             objects      : [], // players, blocks, cars, etc.
+            objects_ref  : {}, // players, blocks, cars, etc.
             queues       : [], // non-state events
             game_room_id : game_room_id,
             interval     : setInterval( function() {
