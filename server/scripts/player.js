@@ -1,5 +1,5 @@
 var Entity = require('./entity');
-var acceleration = 15,
+var acceleration = 0.25,
     friction = 0.97;
 
 
@@ -29,9 +29,5 @@ module.exports = Player = Entity.extend({
         this.vx*=friction;
         this.vy*=friction;
         this.vz*=friction;
-    },
-    render: function(ctx,cvs,elapsedTime){
-        ctx.fillStyle="red";
-        ctx.fillRect(this.x,this.y,100,100);
     }
 });
