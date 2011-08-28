@@ -68,7 +68,7 @@ app.get('/', function(req,res){
 
 // Player Joins a Game
 app.get( /^\/play\/(\w+)$/, function( req, res ) {
-    gamesjs.join( req.params.shift(), function(sockets) {} );
+    gamesjs.join.apply( {}, req.params );
     res.render('play');
 } );
 

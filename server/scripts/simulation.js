@@ -10,9 +10,13 @@ module.exports = Simulation = Class.extend({
             this.entities[i].update(elapsedTime);
         }
     },
-    addEntity: function(e){
+    addEntity: function( e, id ) {
         this.entities.push(e);
-    }
+        this.index[id] = e;
+    },
+
+    index  : {},
+    lookup : function(id) { return this.index[id] }
 });
 
 })();

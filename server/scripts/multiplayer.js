@@ -74,24 +74,53 @@ module.exports = {
             //socket.on( 'disconnect', function () {});
 
             socket.on( 'player-connected', function (data) {
-                //socket.broadcast.emit( 'player-connected', player );
-                var game = games[data.game_room_id];
-                if (!game) return;
-                game.sockets.push(socket);
-                socket.send('l38ylasjklf');
-                console.log('!!!!!!!!!!!!!!');
+                var game   = games[data.game_room_id]
+                ,   player = game.simulation.lookup(data.player_id);
+
+                if (!game) game.sockets.push(socket);
+
+                // Leave if player already exists
+                if (player) return;
+
+                console.log(
+                    'Player Joined at http://gamesjs.com/ -> ',
+                    game_room_id,
+                    player_id
+                );
+
+                // Add an object
+                var controller = new Controller([{
+                        name: "left",
+                        keyCode: 37
+                    }, {
+                        name: "right",
+                        keyCode: 39
+                    }, {
+                        name: "up",
+                        keyCode: 38
+                    }, {
+                        name: "down",
+                        keyCode: 40
+                    }
+                ]);
+
+                var player = new Player(
+                    game.simulation,
+                    controller,
+                    0, 0, 0
+                );
+                player.id = data.player_id;
+                game.simulation.addEntity( player, data.player_id );
             });
         });
     },
-    join : function gamejs( game_room_id, socketfn ) {
+    join : function gamejs(game_room_id) {
         // Create Game or Get 
         var game = games[game_room_id] = games[game_room_id] || {
             simulation   : new Simulation(),
             timeElapsed  : 0.0,
             timeStart    : new Date / 1000.0,
             sockets      : [],
-            objects      : [], // players, blocks, cars, etc.
-            objects_ref  : {}, // players, blocks, cars, etc.
             queues       : [], // non-state events
             game_room_id : game_room_id,
             interval     : setInterval( function() {
@@ -101,28 +130,5 @@ module.exports = {
                 console.log('New Game at http://gamesjs.com/' + game_room_id);
             })()
         };
-
-        // Add an object
-        var controller = new Controller([{
-                name: "left",
-                keyCode: 37
-            }, {
-                name: "right",
-                keyCode: 39
-            }, {
-                name: "up",
-                keyCode: 38
-            }, {
-                name: "down",
-                keyCode: 40
-            },  
-        ]);
-
-        console.log('Player Joined at http://gamesjs.com/' + game_room_id);
-        game.simulation.addEntity(new Player(
-            game.simulation,
-            controller,
-            0, 0, 0
-        ));
     }
 };

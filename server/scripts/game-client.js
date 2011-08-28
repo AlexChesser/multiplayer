@@ -8,16 +8,6 @@ var Class        = require('./class'),
 
 console.log( io,'<- IO', socket, 'ROOM ->', game_room_id );
 
-socket.on( 'connect', function () {
-    socket.emit( 'player-connected', {
-        game_room_id : game_room_id
-    } );
-
-    socket.on( 'server-tick', function (msg) {
-        console.log(msg);
-    } );
-});
-
 module.exports = GameClient = Class.extend({
     init: function(){
         var self = this;
@@ -41,21 +31,32 @@ module.exports = GameClient = Class.extend({
                 keyCode: 40
             },  
         ]);
-        
+
         this.player = new Player(this.sim,this.controller,0,0,0);
-        this.sim.addEntity(this.player);
-        
-        document.addEventListener('keydown',function(e){
+        this.sim.addEntity( this.player, this.player.id );
+
+        socket.on( 'connect', function () {
+            socket.emit( 'player-connected', {
+                game_room_id : game_room_id,
+                player_id    : this.player.id
+            } );
+
+            socket.on( 'server-tick', function (msg) {
+                console.log(msg);
+            } );
+        });
+
+        document.addEventListener( 'keydown', function(e){
             var action = self.controller.onInput(e);
             if (!action) return;
 
             socket.emit( 'player-input', {
-                player_id    : '12345',
+                player_id    : this.player.id,
                 game_room_id : game_room_id,
                 action       : action
             } );
 
-        },false);
+        }, false );
 
         document.addEventListener('keyup',function(e){
             var action = self.controller.onInput(e);
@@ -76,11 +77,8 @@ module.exports = GameClient = Class.extend({
         this.intervalId = setInterval(function(){
             var newTime = (new Date()).getTime()/1000.0;
                 self.timeElapsed = newTime-lastLoopTime;
-                
                 self.sim.update(self.timeElapsed);
-                
                 self.renderer.render();
-                
                 lastLoopTime = newTime;
         },1000/60);
     },
