@@ -1,6 +1,7 @@
 var Class = require('./class'),
     Simulation = require('./simulation'),
     Player = require('./player'),
+    //Socket = require('socket.io'),
     Controller = require('./controller');
 
 module.exports = GameClient = Class.extend({

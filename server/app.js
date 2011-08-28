@@ -3,7 +3,7 @@ var express = require('express'),
     stylus = require('stylus');
 
 // GamesJS Server
-var gamesjs = require('./../gamesjs');
+var gamesjs = require('./scripts/multiplayer');
 
 // Create App/Server
 var app = module.exports = express.createServer();
@@ -65,10 +65,10 @@ app.get('/', function(req,res){
 });
 
 // Player Joins a Game
-app.get('/^\/play\/(\w+)', function( req, res ) {
-    gamesjs( req.params.shift(), function(sockets) {});
+app.get( /^\/play\/(\w+)$/, function( req, res ) {
+    gamesjs( req.params.shift(), function(sockets) {} );
+    res.render('play');
 } );
-
 
 // Start the server
 app.listen(port);
