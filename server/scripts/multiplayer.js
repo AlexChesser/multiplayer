@@ -38,6 +38,7 @@ function game_loop_tick(game) {
     // TODO use socket routes
     game.sockets.forEach(function(sock){
         sock.emit( 'server-tick', game.simulation.entities.map(function(obj) {
+            if (!obj) return;
             return {
                 id : obj.id,
                 x  : obj.x,
@@ -57,7 +58,8 @@ module.exports = {
         io.sockets.on( 'connection', function (socket) {
 
             socket.on( 'disconnect', function () {
-                
+                console.log('Player left room. -> ', socket.player.id);
+                socket.game.simulation.removeEntity(socket.player.id);
             } );
 
             socket.on( 'player-input', function (data) {
@@ -69,7 +71,6 @@ module.exports = {
 
                 // Update Controler
                 player.controller.forceInput(data.action);
-
             } );
             //socket.on( 'disconnect', function () {});
 
@@ -79,6 +80,7 @@ module.exports = {
                     'ERROR, Game should exist -> ',
                     data.game_room_id
                 );
+                socket.game = game;
 
                 if (game) game.sockets.push(socket);
 
@@ -92,8 +94,6 @@ module.exports = {
                     data.game_room_id,
                     data.player_id
                 );
-
-                socket.player_id = data.player_id;
 
                 // Add an object
                 var controller = new Controller([{
@@ -119,6 +119,7 @@ module.exports = {
 
                 player.id = data.player_id;
                 game.simulation.addEntity( player, data.player_id );
+                socket.player = player;
             });
         });
     },
