@@ -114,7 +114,7 @@ module.exports = {
                 var player = new Player(
                     game.simulation,
                     controller,
-                    0, 0, 0
+                    (Math.random()-0.5)*3, (Math.random()-0.5)*3, 0.0
                 );
 
                 player.id = data.player_id;
