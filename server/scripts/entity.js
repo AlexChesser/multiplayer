@@ -11,8 +11,6 @@ module.exports = Entity = Class.extend({
         this.vz = 0;
     },
     update: function(elapsedTime){
-    },
-    render: function(ctx,cvs,elapsedTime){
     }
 });
 

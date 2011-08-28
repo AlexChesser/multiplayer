@@ -1,12 +1,15 @@
 var Class = require('./class'),
     Simulation = require('./simulation'),
     Player = require('./player'),
-    Controller = require('./controller');
+    Controller = require('./controller'),
+    Renderer = require('./renderer');
 
 module.exports = GameClient = Class.extend({
     init: function(){
         var self = this;
         this.sim = new Simulation();
+        this.renderer = new Renderer(this.sim);
+        
         this.width = 800;
         this.height = 600;
         
@@ -28,15 +31,6 @@ module.exports = GameClient = Class.extend({
         this.player = new Player(this.sim,this.controller,0,0,0);
         this.sim.addEntity(this.player);
         
-        this.cvs = document.getElementById('app-canvas');
-        this.ctx = this.cvs.getContext('2d');
-            
-        this.cvs.style.width = this.width+"px";
-        this.cvs.style.height = this.height+"px";
-        
-        this.cvs.width=this.width;
-        this.cvs.height=this.height;
-        
         document.addEventListener('keydown',function(e){
             if(self.controller.onInput(e)){
             }
@@ -56,9 +50,7 @@ module.exports = GameClient = Class.extend({
                 
                 self.sim.update(self.timeElapsed);
                 
-                self.ctx.fillStyle="rgba(0,0,0,1)";
-                self.ctx.fillRect(0,0,self.width,self.height);
-                self.sim.render(self.ctx,self.cvs,self.timeElapsed);
+                self.renderer.render();
                 
                 lastLoopTime = newTime;
         },1000/60);

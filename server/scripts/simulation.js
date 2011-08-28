@@ -10,11 +10,6 @@ module.exports = Simulation = Class.extend({
             this.entities[i].update(elapsedTime);
         }
     },
-    render: function(ctx,cvs,elapsedTime){
-        for(var i=0; i<this.entities.length;i++){
-            this.entities[i].render(ctx,cvs,elapsedTime);
-        }
-    },
     addEntity: function(e){
         this.entities.push(e);
     }
