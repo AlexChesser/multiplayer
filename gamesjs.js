@@ -4,12 +4,15 @@
 //
 
 var io    = require('socket.io').listen(8090)
-,   games = {}
-,   ;
+,   games = {};
 
 
+/*
+    TODO
+    controler abstract layer
+*/
 io.sockets.on( 'connection', function (socket) {
-    socket.on( 'player-input', function () {
+    socket.on( 'player-input', function (data) {
         /*
             data = {
                 game_room_id
@@ -17,8 +20,12 @@ io.sockets.on( 'connection', function (socket) {
                 input
             }
         */
-        // Game Room is Room ID
-        var game_room_id = data.game_room_id;
+
+        var game   = games[data.game_room_id]
+        ,   player = game[player.id];
+
+        // Update Vector
+        // ...
 
     } );
     //socket.on( 'disconnect', function () {});
@@ -45,17 +52,20 @@ function game_loop_tick(game) {
     /*
         
     */
+
+    socket.broadcast.emit( 'server-tick', game );
 }
 
 module.exports = function gamejs( game_room, socketfn ) {
     console.log('Launching New Game at http://gamesjs.com/' + game_room_id);
 
     var game = games[game_room_id] = {
-        objects      : [],
-        game_room_id : game_room_id
+        objects      : [], // players, blocks, cars, etc.
+        queues       : [], // non-state events
+        game_room_id : game_room_id,
         interval     : setInterval( function() {
             game_loop_tick(game);
-        }, 20 )
+        }, 16 )
     };
 
     // Add an object
