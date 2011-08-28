@@ -42,7 +42,7 @@ module.exports = GameClient = Class.extend({
             } );
 
             socket.on( 'server-tick', function (msg) {
-                console.log(msg);
+                console.log(JSON.stringify(msg));
             } );
         });
 

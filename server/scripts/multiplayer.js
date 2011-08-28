@@ -54,21 +54,15 @@ module.exports = {
         io.sockets.on( 'connection', function (socket) {
             socket.on( 'player-input', function (data) {
                 console.log(data);
-                /*
-                    data = {
-                        game_room_id
-                        player_id
-                        input
-                    }
-                */
 
-                var game   = games[data.game_room_id] || {}
-                ,   player = game[player.id] || {};
+                var game   = games[data.game_room_id];
+                if (!game) return;
 
-                if (!(game && player)) return;
+                var player = game.simulation.lookup(data.player_id);
+                if (!player) return;
 
-                // Update Vector
-                // ...
+                // Update Controler
+                player.controller.forceInput(data.action);
 
             } );
             //socket.on( 'disconnect', function () {});
@@ -83,7 +77,6 @@ module.exports = {
                 if (game) game.sockets.push(socket);
 
                 var player = game.simulation.lookup(data.player_id);
-
 
                 // Leave if player already exists
                 if (player) return;
@@ -115,6 +108,7 @@ module.exports = {
                     controller,
                     0, 0, 0
                 );
+
                 player.id = data.player_id;
                 game.simulation.addEntity( player, data.player_id );
             });
@@ -131,7 +125,7 @@ module.exports = {
             game_room_id : game_room_id,
             interval     : setInterval( function() {
                 game_loop_tick(game);
-            }, 160 ),
+            }, 500 ),
             creating     : (function(){
                 console.log('New Game at http://gamesjs.com/' + game_room_id);
             })()

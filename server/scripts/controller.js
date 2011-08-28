@@ -11,20 +11,27 @@ module.exports = Controller = Class.extend({
             });
         }
     },
+    forceInput: function(action) {
+        for(var i=0; i<this.keys.length; i++){
+            if(this.keys[i].keyCode==action.code){
+                this.keys[i].isDown = action.type=="keydown";
+                return;
+            }
+        }
+    },
     onInput: function(evt){
         if(evt.type!="keydown"&&evt.type!="keyup")
             return false;
-            
-        
-            
+
         for(var i=0; i<this.keys.length;i++){
             if(this.keys[i].keyCode==evt.keyCode){
                 evt.preventDefault();
             
                 this.keys[i].isDown = evt.type=="keydown";
                 return {
-                    event: evt.type,
-                    key: this.keys[i].name
+                    type : evt.type,
+                    key  : this.keys[i].name,
+                    code : evt.keyCode
                 };
             }
         }
