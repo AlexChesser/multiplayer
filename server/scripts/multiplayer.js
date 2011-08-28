@@ -48,7 +48,7 @@ function game_loop_tick(game) {
                 vy : obj.vy,
                 vz : obj.vz
             };
-        }) );
+        }).filter(function(obj) { return obj }) );
     });
 }
 
