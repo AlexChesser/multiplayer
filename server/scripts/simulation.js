@@ -10,6 +10,9 @@ module.exports = Simulation = Class.extend({
             this.entities[i].update(elapsedTime);
         }
     },
+    removeEntity: function(id) {
+        
+    },
     addEntity: function( e, id ) {
         this.entities.push(e);
         this.index[id] = e;

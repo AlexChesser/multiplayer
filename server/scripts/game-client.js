@@ -51,7 +51,8 @@ module.exports = GameClient = Class.extend({
                         fplayer = new Player(
                             sim, null, 0, 0, 0
                         );
-                        sim.addEntity( fplayer, fplayer.id );
+                        fplayer.id = obj.id;
+                        sim.addEntity( fplayer, obj.id );
                     }
 
                     fplayer.x  = obj.x;
