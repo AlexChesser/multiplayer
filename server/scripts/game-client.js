@@ -1,8 +1,21 @@
-var Class = require('./class'),
-    Simulation = require('./simulation'),
-    Player = require('./player'),
-    //Socket = require('socket.io'),
-    Controller = require('./controller');
+var Class        = require('./class'),
+    Simulation   = require('./simulation'),
+    Player       = require('./player'),
+    Controller   = require('./controller'),
+    socket       = io.connect(),
+    game_room_id = location.href.split('/').slice(-1)[0];
+
+console.log( io,'<- IO', socket, 'ROOM ->', game_room_id );
+
+socket.on( 'connect', function () {
+    socket.emit( 'player-connected', {
+        game_room_id : game_room_id
+    } );
+
+    socket.on( 'server-tick', function (msg) {
+        console.log(msg);
+    } );
+});
 
 module.exports = GameClient = Class.extend({
     init: function(){
@@ -67,6 +80,5 @@ module.exports = GameClient = Class.extend({
     stop: function(){
         clearInterval(this.intervalId);
         this.intervalId = undefined;
-    },
-
+    }
 });

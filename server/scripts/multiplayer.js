@@ -2,7 +2,7 @@
 //  GamesJS
 //
 
-var io         = require('socket.io').listen(8090)
+var io         = require('socket.io')
 ,   event      = require('./event')
 ,   Player     = require('./player')
 ,   Simulation = require('./simulation')
@@ -13,33 +13,6 @@ var io         = require('socket.io').listen(8090)
     TODO
     controler abstract layer
 */
-io.sockets.on( 'connection', function (socket) {
-    socket.on( 'player-input', function (data) {
-        /*
-            data = {
-                game_room_id
-                player_id
-                input
-            }
-        */
-
-        var game   = games[data.game_room_id]
-        ,   player = game[player.id];
-
-
-
-        // Update Vector
-        // ...
-
-    } );
-    //socket.on( 'disconnect', function () {});
-
-    socket.on( 'player-connected', function (data) {
-        //socket.broadcast.emit( 'player-connected', player );
-        var game = games[data.game_room_id]
-        game.sockets.push(socket);
-    });
-});
 
 /*
     land on page
@@ -59,47 +32,94 @@ function game_loop_tick(game) {
     game.simulation.update(game.timeElapsed);
 
     // Broadcast to single game room rather than everyone
+    // TODO use socket routes
     game.sockets.forEach(function(sock){
-        sock.emit( 'server-tick', game );
+        sock.emit( 'server-tick', game.simulation.entities.map(function(obj) {
+            return {
+                id : '12345', // TODO
+                x  : obj.x,
+                y  : obj.y,
+                z  : obj.z,
+                vx : obj.vx,
+                vy : obj.vy,
+                vz : obj.vz
+            };
+        }) );
     });
 }
 
-module.exports = function gamejs( game_room_id, socketfn ) {
-    console.log('Launching New Game at http://gamesjs.com/' + game_room_id);
+module.exports = {
+    init : function(app) {
+        io = io.listen(app);
+        io.sockets.on( 'connection', function (socket) {
+            socket.on( 'player-input', function (data) {
+                /*
+                    data = {
+                        game_room_id
+                        player_id
+                        input
+                    }
+                */
 
-    // Create Game or Get 
-    var game = games[game_room_id] = games[game_room_id] || {
-        simulation   : new Simulation(),
-        timeElapsed  : 0.0,
-        timeStart    : new Date / 1000.0,
-        sockets      : [],
-        objects      : [], // players, blocks, cars, etc.
-        queues       : [], // non-state events
-        game_room_id : game_room_id,
-        interval     : setInterval( function() {
-            game_loop_tick(game);
-        }, 16 )
-    };
+                var game   = games[data.game_room_id] || {}
+                ,   player = game[player.id] || {};
 
-    // Add an object
-    var controller = new Controller([{
-            name: "left",
-            keyCode: 37
-        }, {
-            name: "right",
-            keyCode: 39
-        }, {
-            name: "up",
-            keyCode: 38
-        }, {
-            name: "down",
-            keyCode: 40
-        },  
-    ]);
+                if (!(game && player)) return;
 
-    game.simulation.addEntity(new Player(
-        game.simulation,
-        controller,
-        0, 0, 0
-    ));
+                // Update Vector
+                // ...
+
+            } );
+            //socket.on( 'disconnect', function () {});
+
+            socket.on( 'player-connected', function (data) {
+                //socket.broadcast.emit( 'player-connected', player );
+                var game = games[data.game_room_id];
+                if (!game) return;
+                game.sockets.push(socket);
+                console.log('!!!!!!!!!!!!!!');
+            });
+        });
+    },
+    join : function gamejs( game_room_id, socketfn ) {
+        // Create Game or Get 
+        var game = games[game_room_id] = games[game_room_id] || {
+            simulation   : new Simulation(),
+            timeElapsed  : 0.0,
+            timeStart    : new Date / 1000.0,
+            sockets      : [],
+            objects      : [], // players, blocks, cars, etc.
+            queues       : [], // non-state events
+            game_room_id : game_room_id,
+            interval     : setInterval( function() {
+                game_loop_tick(game);
+            }, 160 ),
+            creating     : (function(){
+                console.log('New Game at http://gamesjs.com/' + game_room_id);
+            })()
+        };
+
+        // Add an object
+        var controller = new Controller([{
+                name: "left",
+                keyCode: 37
+            }, {
+                name: "right",
+                keyCode: 39
+            }, {
+                name: "up",
+                keyCode: 38
+            }, {
+                name: "down",
+                keyCode: 40
+            },  
+        ]);
+
+        console.log('Player Joined at http://gamesjs.com/' + game_room_id);
+        game.simulation.addEntity(new Player(
+            game.simulation,
+            controller,
+            0, 0, 0
+        ));
+    }
 };

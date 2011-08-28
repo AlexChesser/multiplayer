@@ -2,16 +2,18 @@
 var express = require('express'),
     stylus = require('stylus');
 
-// GamesJS Server
-var gamesjs = require('./scripts/multiplayer');
-
 // Create App/Server
 var app = module.exports = express.createServer();
+
+// GamesJS Server
+var gamesjs = require('./scripts/multiplayer');
+gamesjs.init(app);
+
 
 // ----------------
 // Configurations
 // ----------------
-var port = 8080;
+var port = 8888;
     // General
 app.configure(function(){
     app.use(express.methodOverride());
@@ -66,7 +68,7 @@ app.get('/', function(req,res){
 
 // Player Joins a Game
 app.get( /^\/play\/(\w+)$/, function( req, res ) {
-    gamesjs( req.params.shift(), function(sockets) {} );
+    gamesjs.join( req.params.shift(), function(sockets) {} );
     res.render('play');
 } );
 
