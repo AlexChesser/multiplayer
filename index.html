@@ -1,0 +1,26 @@
+<script src=/socket.io/socket.io.js></script>
+<script>
+    var socket       = io.connect('http://gamesjs.com:8090')
+    ,   game_room_id = 'i83jklsjs', // make real UUID
+    ,   player       = {
+            name : 'Francois', // get player name
+            id   : Math.ceil(Math.random()*4000) + new Date, // make better
+            controler : {}
+        };
+
+    // Player Connected
+    socket.emit( 'player-connected', player );
+
+    // New Player Joins
+    socket.on( 'player-connected', function (player) {
+        console.log(data);
+    } );
+
+
+    /*
+        TODO
+
+        socket.emit( 'player-input', {....} );
+    */
+
+</script>

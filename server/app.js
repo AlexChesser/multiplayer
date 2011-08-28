@@ -2,6 +2,9 @@
 var express = require('express'),
     stylus = require('stylus');
 
+// GamesJS Server
+var gamesjs = require('./../gamesjs');
+
 // Create App/Server
 var app = module.exports = express.createServer();
 
@@ -60,6 +63,11 @@ app.set('view engine', 'ejs');
 app.get('/', function(req,res){
     res.render('index');
 });
+
+app.get('/^\/play\/(\w+)', function( req, res ) {
+    gamesjs( 'game-end-point', function(sockets) {    
+    });
+} );
 
 
 // Start the server
