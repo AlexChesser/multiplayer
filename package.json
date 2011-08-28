@@ -2,7 +2,7 @@
   "name": "jumpout",
   "subdomain": "jumpout",
   "scripts": {
-    "start": "server/app.js"
+    "start": "run"
   },
   "dependencies": {
     "express": "2.4.6",

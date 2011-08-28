@@ -34,7 +34,7 @@ module.exports = Class.extend({
         
         this.camera = new J3D.Transform();
         this.camera.camera = new J3D.Camera();
-        this.camera.position.z = 10;
+        this.camera.position.z = 30;
         this.camera.position.y = 1;
         this.engine.camera = this.camera;
         
