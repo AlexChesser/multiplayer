@@ -4,13 +4,13 @@
   "scripts": {
     "start": "server/app.js"
   },
-  "dependencies": [
-    "express@2.4.6",
-    "ejs@0.4.3",
-    "stylus@0.15.1",
-    "browserify@1.4.3",
-    "uglify-js@1.0.7",
-    "socket.io@0.7.11"
-  ],
-  "version": "0.0.0-7"
+  "dependencies": {
+    "express": "2.4.6",
+    "ejs": "0.4.3",
+    "stylus": "0.15.1",
+    "browserify": "1.4.3",
+    "uglify-js": "1.0.7",
+    "socket.io": "0.7.11"
+  },
+  "version": "0.0.0-16"
 }

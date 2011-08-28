@@ -13,7 +13,7 @@ gamesjs.init(app);
 // ----------------
 // Configurations
 // ----------------
-var port = 8888;
+var port = 8080;
     // General
 app.configure(function(){
     app.use(express.methodOverride());
