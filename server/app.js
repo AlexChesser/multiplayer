@@ -1,3 +1,5 @@
+#!node
+
 // Dependencies
 var express = require('express'),
     stylus = require('stylus');
