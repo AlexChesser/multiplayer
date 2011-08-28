@@ -45,7 +45,6 @@ module.exports = GameClient = Class.extend({
 
             socket.on( 'server-tick', function (msg) {
                 msg.forEach(function(obj){
-                    //if (player.id === obj.id) return;
                     var fplayer = sim.lookup(obj.id);
 
                     if (!fplayer) {
@@ -55,12 +54,12 @@ module.exports = GameClient = Class.extend({
                         sim.addEntity( fplayer, fplayer.id );
                     }
 
-                    player.x  = obj.x;
-                    player.y  = obj.y;
-                    player.z  = obj.z;
-                    player.vx = obj.vx;
-                    player.vy = obj.vy;
-                    player.vz = obj.vz;
+                    fplayer.x  = obj.x;
+                    fplayer.y  = obj.y;
+                    fplayer.z  = obj.z;
+                    fplayer.vx = obj.vx;
+                    fplayer.vy = obj.vy;
+                    fplayer.vz = obj.vz;
                 });
             } );
         });
