@@ -1,8 +1,4 @@
-(function(){
 // Create Jumpout namespace
-jo = {};
-
-})();
 
 /* Simple JavaScript Inheritance
  * By John Resig http://ejohn.org/
@@ -67,3 +63,5 @@ jo = {};
     return Class;
   };
 })();
+
+module.exports = Class;

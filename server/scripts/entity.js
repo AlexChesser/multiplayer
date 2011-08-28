@@ -1,6 +1,6 @@
-(function(){
+var Class = require('./class');
 
-jo.Entity = Class.extend({
+module.exports = Entity = Class.extend({
     init: function(sim,x,y,z){
         this.sim = sim;
         this.x = x||0.0;
@@ -16,4 +16,3 @@ jo.Entity = Class.extend({
     }
 });
 
-})();
