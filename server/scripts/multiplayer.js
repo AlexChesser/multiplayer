@@ -32,7 +32,7 @@ function game_loop_tick(game) {
     var newTime = (new Date()).getTime()/1000.0;
     game.timeElapsed = newTime - game.lastLoopTime;
     game.simulation.update(game.timeElapsed);
-    lastLoopTime = newTime;
+    game.lastLoopTime = newTime;
 
     // Broadcast to single game room rather than everyone
     // TODO use socket routes
