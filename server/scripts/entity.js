@@ -9,6 +9,7 @@ module.exports = Entity = Class.extend({
         this.vx = 0;
         this.vy = 0;
         this.vz = 0;
+        this.id = Math.floor(Math.random()*10000000000);
     },
     update: function(elapsedTime){
     }
