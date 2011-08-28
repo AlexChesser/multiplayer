@@ -74,18 +74,24 @@ module.exports = {
             //socket.on( 'disconnect', function () {});
 
             socket.on( 'player-connected', function (data) {
-                var game   = games[data.game_room_id]
-                ,   player = game.simulation.lookup(data.player_id);
+                var game   = games[data.game_room_id];
+                if (!game) return console.log(
+                    'ERROR, Game should exist -> ',
+                    data.game_room_id
+                );
 
-                if (!game) game.sockets.push(socket);
+                if (game) game.sockets.push(socket);
+
+                var player = game.simulation.lookup(data.player_id);
+
 
                 // Leave if player already exists
                 if (player) return;
 
                 console.log(
                     'Player Joined at http://gamesjs.com/ -> ',
-                    game_room_id,
-                    player_id
+                    data.game_room_id,
+                    data.player_id
                 );
 
                 // Add an object

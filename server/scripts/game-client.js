@@ -32,13 +32,13 @@ module.exports = GameClient = Class.extend({
             },  
         ]);
 
-        this.player = new Player(this.sim,this.controller,0,0,0);
+        var player = this.player = new Player(this.sim,this.controller,0,0,0);
         this.sim.addEntity( this.player, this.player.id );
 
         socket.on( 'connect', function () {
             socket.emit( 'player-connected', {
                 game_room_id : game_room_id,
-                player_id    : this.player.id
+                player_id    : player.id
             } );
 
             socket.on( 'server-tick', function (msg) {
@@ -51,7 +51,7 @@ module.exports = GameClient = Class.extend({
             if (!action) return;
 
             socket.emit( 'player-input', {
-                player_id    : this.player.id,
+                player_id    : player.id,
                 game_room_id : game_room_id,
                 action       : action
             } );
@@ -63,7 +63,7 @@ module.exports = GameClient = Class.extend({
             if (!action) return;
 
             socket.emit( 'player-input', {
-                player_id    : this.player.id,
+                player_id    : player.id,
                 game_room_id : game_room_id,
                 action       : action
             } );
