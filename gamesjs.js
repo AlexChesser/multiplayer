@@ -53,13 +53,15 @@ function game_loop_tick(game) {
         
     */
 
+    // TODO broadcast to single game room rather than everyone
     socket.broadcast.emit( 'server-tick', game );
 }
 
 module.exports = function gamejs( game_room, socketfn ) {
     console.log('Launching New Game at http://gamesjs.com/' + game_room_id);
 
-    var game = games[game_room_id] = {
+    // Create Game or Get 
+    var game = games[game_room_id] = games[game_room_id] || {
         objects      : [], // players, blocks, cars, etc.
         queues       : [], // non-state events
         game_room_id : game_room_id,
@@ -69,7 +71,7 @@ module.exports = function gamejs( game_room, socketfn ) {
     };
 
     // Add an object
-    ///game.objects.push(player);
+    // game.objects.push(player);
 
     return;
     //socketfn(sockets);

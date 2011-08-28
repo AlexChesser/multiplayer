@@ -53,9 +53,9 @@ app.get('/', function(req,res){
     res.render('index');
 });
 
+// Player Joins a Game
 app.get('/^\/play\/(\w+)', function( req, res ) {
-    gamesjs( 'game-end-point', function(sockets) {    
-    });
+    gamesjs( req.params.shift(), function(sockets) {});
 } );
 
 
