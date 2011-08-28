@@ -43,6 +43,7 @@ module.exports = Class.extend({
     render: function(){
         for(var i=0; i<this.cubes.length;i++){
             if(i<this.sim.entities.length){
+                this.cubes[i].renderer.color = new J3D.Color(this.sim.entities[i].r,this.sim.entities[i].g,this.sim.entities[i].b,1);
                 this.cubes[i].position.x = this.sim.entities[i].x;
                 this.cubes[i].position.y = -this.sim.entities[i].y;
                 this.cubes[i].position.z = this.sim.entities[i].z;

@@ -45,7 +45,10 @@ function game_loop_tick(game) {
                 z  : obj.z,
                 vx : obj.vx,
                 vy : obj.vy,
-                vz : obj.vz
+                vz : obj.vz,
+                r  : obj.r,
+                g  : obj.g,
+                b  : obj.b
             };
         }) );
     });
@@ -114,7 +117,8 @@ module.exports = {
                 var player = new Player(
                     game.simulation,
                     controller,
-                    (Math.random()-0.5)*3, (Math.random()-0.5)*3, 0.0
+                    (Math.random()-0.5)*3, (Math.random()-0.5)*3, 0.0,
+                    Math.random(),Math.random(),Math.random()
                 );
 
                 player.id = data.player_id;

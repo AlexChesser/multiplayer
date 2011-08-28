@@ -18,6 +18,17 @@ gamesjs.init(app);
 var port = 8080;
     // General
 app.configure(function(){
+    app.use(app.router);    
+    
+        app.use(require('browserify')({
+        require : __dirname + '/scripts/main.js',
+        watch: true
+    }));
+
+    app.use(express.static(__dirname + '/../www'));
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    console.log('Running in Development Mode');
+    
     app.use(express.methodOverride());
     app.use(express.bodyParser());
     
@@ -30,10 +41,10 @@ app.configure(function(){
     }
     app.use(stylus.middleware({ src: __dirname + '/../www' }));
     
-    app.use(app.router);    
+    
 });
     // Development specific 
-app.configure('development', function(){
+/*app.configure('development', function(){
     app.use(require('browserify')({
         require : __dirname + '/scripts/main.js',
         watch: true
@@ -42,10 +53,10 @@ app.configure('development', function(){
     app.use(express.static(__dirname + '/../www'));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     console.log('Running in Development Mode');
-});
+});*/
     // Production specific (You don't have to worry about setting this. 
     // It is set by default on the live server.
-app.configure('production', function(){
+/*app.configure('production', function(){
     app.use(require('browserify')({
         require : __dirname + '/scripts/main.js',
         filter : require('uglify-js'), 
@@ -57,7 +68,7 @@ app.configure('production', function(){
     app.use(express.static(__dirname + '/../www', { maxAge: oneYear }));
     app.use(express.errorHandler());
 console.log('Running in Production Mode');
-});
+});*/
 
 // Set EJS as our default Template Engine
 app.set('views', __dirname + '/views');

@@ -49,7 +49,7 @@ module.exports = GameClient = Class.extend({
 
                     if (!fplayer) {
                         fplayer = new Player(
-                            sim, null, 0, 0, 0
+                            sim, null, 0, 0, 0,1,0,0
                         );
                         fplayer.id = obj.id;
                         sim.addEntity( fplayer, obj.id );
@@ -61,6 +61,10 @@ module.exports = GameClient = Class.extend({
                     fplayer.vx = obj.vx;
                     fplayer.vy = obj.vy;
                     fplayer.vz = obj.vz;
+                    fplayer.r = obj.r;
+                    fplayer.g = obj.g;
+                    fplayer.b = obj.b;
+                    
                 });
             } );
         });

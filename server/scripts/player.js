@@ -4,9 +4,12 @@ var acceleration = 0.25,
 
 
 module.exports = Player = Entity.extend({
-    init: function(sim,controller,x,y,z){
+    init: function(sim,controller,x,y,z,r,g,b){
         this._super(sim,x,y,z);
         this.controller = controller;
+        this.r = r;
+        this.g = g;
+        this.b = b;
     },
     update: function(elapsedTime){
         if (!this.controller) return;
