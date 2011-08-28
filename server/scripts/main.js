@@ -4,6 +4,4 @@ var $ = require('./jquery'),
 $(document).ready(function(){
     var game = new GameClient();
     game.start();
-    
-    alert('hi');
 });

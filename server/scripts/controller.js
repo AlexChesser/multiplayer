@@ -15,10 +15,12 @@ module.exports = Controller = Class.extend({
         if(evt.type!="keydown"&&evt.type!="keyup")
             return false;
             
-        evt.preventDefault();
+        
             
         for(var i=0; i<this.keys.length;i++){
             if(this.keys[i].keyCode==evt.keyCode){
+                evt.preventDefault();
+            
                 this.keys[i].isDown = evt.type=="keydown";
                 return {
                     event: evt.type,
