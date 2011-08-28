@@ -25,11 +25,14 @@ var io         = require('socket.io')
     ---
 */
 
-
+function now() { return (new Date()).getTime()/1000.0 }
 function game_loop_tick(game) {
     // ...tick
-    game.timeElapsed = (new Date / 1000.0) - game.timeStart;
+    
+    var newTime = (new Date()).getTime()/1000.0;
+    game.timeElapsed = newTime - game.lastLoopTime;
     game.simulation.update(game.timeElapsed);
+    lastLoopTime = newTime;
 
     // Broadcast to single game room rather than everyone
     // TODO use socket routes
@@ -52,6 +55,11 @@ module.exports = {
     init : function(app) {
         io = io.listen(app);
         io.sockets.on( 'connection', function (socket) {
+
+            socket.on( 'disconnect', function () {
+                
+            } );
+
             socket.on( 'player-input', function (data) {
                 console.log(data);
 
@@ -87,6 +95,8 @@ module.exports = {
                     data.player_id
                 );
 
+                socket.player_id = data.player_id;
+
                 // Add an object
                 var controller = new Controller([{
                         name: "left",
@@ -119,13 +129,13 @@ module.exports = {
         var game = games[game_room_id] = games[game_room_id] || {
             simulation   : new Simulation(),
             timeElapsed  : 0.0,
-            timeStart    : new Date / 1000.0,
+            lastLoopTime : (new Date()).getTime()/1000.0,
             sockets      : [],
             queues       : [], // non-state events
             game_room_id : game_room_id,
             interval     : setInterval( function() {
                 game_loop_tick(game);
-            }, 100 ),
+            }, 16 ),
             creating     : (function(){
                 console.log('New Game at http://gamesjs.com/' + game_room_id);
             })()
