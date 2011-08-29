@@ -7,7 +7,7 @@ var Class        = require('./class'),
     player       = null
     game_room_id = location.href.split('/').slice(-1)[0];
 
-console.log( io,'<- IO', socket, 'ROOM ->', game_room_id );
+//console.log( io,'<- IO', socket, 'ROOM ->', game_room_id );
 
 module.exports = GameClient = Class.extend({
     init: function(){

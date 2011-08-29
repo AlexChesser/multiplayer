@@ -59,7 +59,7 @@ module.exports = {
     init : function(app) {
         io = io.listen(app);
         io.sockets.on( 'connection', function (socket) {
-
+            io.set('log level',0);
             socket.on( 'disconnect', function () {
                 console.log('Player left room. -> ', socket.player.id);
                 socket.game.simulation.removeEntity(socket.player.id);

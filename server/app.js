@@ -11,7 +11,6 @@ var app = module.exports = express.createServer();
 var gamesjs = require('./scripts/multiplayer');
 gamesjs.init(app);
 
-
 // ----------------
 // Configurations
 // ----------------
@@ -43,6 +42,9 @@ app.configure(function(){
     
     
 });
+
+
+
     // Development specific 
 /*app.configure('development', function(){
     app.use(require('browserify')({
