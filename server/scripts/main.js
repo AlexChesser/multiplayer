@@ -1,5 +1,4 @@
-var $           = require('./jquery'),
-    GamesClient = require('./game-client')
+var GamesClient = require('./game-client')
     event       = require('./event');
     
     

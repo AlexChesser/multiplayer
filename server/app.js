@@ -17,30 +17,44 @@ gamesjs.init(app);
 var port = 8080;
     // General
 app.configure(function(){
-    app.use(app.router);    
-    
-        app.use(require('browserify')({
-        require : __dirname + '/scripts/main.js',
-        watch: true
-    }));
-
-    app.use(express.static(__dirname + '/../www'));
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-    console.log('Running in Development Mode');
-    
-    app.use(express.methodOverride());
-    app.use(express.bodyParser());
-    
-    // Setup Stylus (Will Compile files on change
-    function compile(str, path, fn) {
-    stylus(str)
-        .set('filename', path)
-        .set('compress', true)
-        .render(fn);
+// Forward www.playbrassmonkey.com to playbrassmonkey.com
+  app.use(function(req,res,next){
+    if(req.headers.host=="www.playbrassmonkey.com"){
+      res.writeHead(301, {'Location':'http://playbrassmonkey.com'+req.url, 'Expires': (new Date).toGMTString()});
+      res.end();
     }
-    app.use(stylus.middleware({ src: __dirname + '/../www' }));
-    
-    
+    else{
+      next();
+    }
+  });
+
+  app.set('views', __dirname + '/views');
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({secret: "hotPolarBearInHawaii"}));
+  
+  app.use(express.methodOverride());
+  
+  // Setup Stylus to compile files on change
+  function compile(str, path, fn) {
+    stylus(str)
+      .set('filename', path)
+      .set('compress', true)
+      .render(fn);
+  }
+  
+  app.use(stylus.middleware({ src: __dirname + '/../www' }));
+  
+  app.use(require('browserify')({
+    require : __dirname + '/scripts/main.js',
+    watch: true
+  }));
+  
+
+  // We put the static middleware after our application routes
+  // this way we can restrict file access based on credentials  
+  app.use(app.router);
+  app.use(express.static(__dirname + '/../www'));
 });
 
 
@@ -78,7 +92,7 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.get('/', function(req,res){
-    res.render('index');
+    res.render('index',{layout:false});
 });
 
 // Player Joins a Game
