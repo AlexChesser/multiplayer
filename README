@@ -1,6 +1,6 @@
 To Install:
-git clone git@github.com:nko2/overengineers.git
-cd overengineers
+git git@github.com:francoislaberge/multiplayer.git
+cd multiplayer
 npm install .
 
 Run
